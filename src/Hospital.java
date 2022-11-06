@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class Hospital {
@@ -37,7 +35,7 @@ public class Hospital {
                     System.out.println("enter the symptoms");
                     String symptoms = scanner.next();
                     System.out.println("enter the doctorname");
-                    String doctorname = scanner.next();
+                    String doctorname = scanner.nextLine();
 
                     try {
                         Class.forName("com.mysql.jdbc.Driver");
@@ -59,6 +57,32 @@ public class Hospital {
                     break;
                 case 2:
                     System.out.println("view selected");
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                        String sql = "SELECT `patientid`, `name`, `address`, `pincode`, `phone`, `symptoms`, `doctorname` FROM `patients`";
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            String getPatientid = rs.getString("patientid");
+                            String getName = rs.getString("name");
+                            String getAddress = rs.getString("address");
+                            String getPincode = rs.getString("pincode");
+                            String getPhone = rs.getString("phone");
+                            String getSymptoms= rs.getString("symptoms");
+                            String getDoctorname = rs.getString("doctorname");
+                            System.out.println("patientid="+getPatientid);
+                            System.out.println("name="+getName);
+                            System.out.println("address="+getAddress);
+                            System.out.println("pincode="+getPincode);
+                            System.out.println("phone="+getPhone);
+                            System.out.println("symptoms="+getSymptoms);
+                            System.out.println("doctorname="+getDoctorname+"\n");
+                        }
+                    }
+                    catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 3:
                     System.out.println("search selected");
