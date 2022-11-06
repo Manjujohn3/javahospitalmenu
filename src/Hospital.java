@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 public class Hospital {
@@ -21,6 +24,38 @@ public class Hospital {
             switch (choice) {
                 case 1:
                     System.out.println("insert patient selected");
+                    System.out.println("enter the patientid:");
+                    int patientid = scanner.nextInt();
+                    System.out.println("enter the name:");
+                    String name = scanner.next();
+                    System.out.println("enter the address:");
+                    String address = scanner.next();
+                    System.out.println("enter the pincode:");
+                    int pincode = scanner.nextInt();
+                    System.out.println("enter the phone:");
+                    String phone = scanner.next();
+                    System.out.println("enter the symptoms");
+                    String symptoms = scanner.next();
+                    System.out.println("enter the doctorname");
+                    String doctorname = scanner.next();
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                        String sql = "INSERT INTO `patients`(`patientid`, `name`, `address`, `pincode`, `phone`, `symptoms`, `doctorname`) VALUES (?,?,?,?,?,?,?)";
+                        PreparedStatement stmt = con.prepareStatement(sql);
+                        stmt.setInt(1, patientid);
+                        stmt.setString(2, name);
+                        stmt.setString(3, address);
+                        stmt.setInt(4, pincode);
+                        stmt.setString(5, phone);
+                        stmt.setString(6, symptoms);
+                        stmt.setString(7, doctorname);
+
+                        stmt.executeUpdate();
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                     break;
                 case 2:
                     System.out.println("view selected");
